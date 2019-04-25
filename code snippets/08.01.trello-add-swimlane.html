@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		.container {
+			border: solid 2px black;
+			background-color: grey;
+			width: 99%;
+			height: 98vh;
+			display: flex;
+		}
+		.swimlane {
+			width: 200px;
+			height: 100%;
+			border: solid 1px #222222;
+			background-color: #dddddd;
+			flex-basis: 200px;
+		}
+	</style>
+	<script>
+		let swimlaneID = 1; //initialize the swimlane counter
+
+		//add a swimlane
+		//add another swimlane
+		function addSwimlane() {
+			//create a div
+			var div = document.createElement("DIV");
+
+			//set id attribute
+    		div.setAttribute("id", "swimlane" + swimlaneID);
+
+			//set the class
+			div.setAttribute("class", "swimlane");
+
+			//add to the container
+			document.querySelector(".container").appendChild(div);
+		}
+
+		//add a card to swimlane
+		//	add a name to the card
+		//	add a description to the card
+		//edit the name of a card
+		//delete a card from a swimlane
+		//ability to move a card up or down in the swimlane
+		//move swimlane to left or right
+		//add a name to the swimlane
+		//edit the swimlane name
+		//delete a swimlane
+		//	delete all cards in a swimlane?
+		//	prompt "are you sure you want to delete the swimlane"
+		//	prompt "move cards to a new swimlane"
+		//move a card to next or previous swimlane
+
+	</script>
+</head>
+<body>
+	<input type="button" value="add swimlane" onclick="addSwimlane()" />
+	<div class="container">
+		
+	</div>
+</body>
+</html>

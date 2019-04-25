@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Client Side Trello</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script>
+		let swimlaneID = 1; //initialize the swimlane counter
+		let cardID = 1;
+
+		//add a swimlane
+		//add another swimlane
+		function addSwimlane() {
+			//create a div
+			var div = document.createElement("DIV");
+
+			//set id attribute
+    		div.setAttribute("id", "swimlane" + swimlaneID);
+
+			//set the class
+			div.setAttribute("class", "swimlane");
+
+			//add a name to the swimlane
+			var listName = document.createElement("INPUT")
+			listName.setAttribute("type", "text");
+			listName.setAttribute("value", "");
+			listName.setAttribute("id", "lName");
+  			listName.setAttribute("placeholder", "Enter List Name");
+  			listName.setAttribute("class", "nameInput");
+  			div.appendChild(listName);
+  			var title = document.createElement("P");
+			listName.innerHTML = listName.value;
+
+			//create an "add card" button
+			var btn = document.createElement("INPUT");
+			btn.setAttribute("type", "button");
+			btn.setAttribute("value", "Add Card");
+			btn.setAttribute("id", "addCardBtn" + swimlaneID);
+			btn.setAttribute("data-swimlane-id", swimlaneID);
+
+			div.appendChild(btn);
+
+			btn.addEventListener("click", addCard);
+
+			//add to the container
+			document.querySelector(".container").appendChild(div);
+		}
+
+		//add a card to swimlane
+		function addCard() {
+			var div = document.createElement("DIV");
+			div.setAttribute("id", "card" + cardID); 
+			div.setAttribute("class", "card");
+			// cardID++;
+
+			//get the swimlane id from the button that was clicked
+			let slid = this.dataset.swimlaneId;
+
+			//	add a name to the card
+			var cardName = document.createElement("INPUT")
+			cardName.setAttribute("type", "text");
+  			cardName.setAttribute("placeholder", "Enter Card Name");
+  			cardName.setAttribute("class", "nameInput");
+  			div.appendChild(cardName);
+			//	add a description to the card
+
+			var title = document.createElement("P");
+			title.innerHTML = txtTitle;
+
+			// var desc = document.createElement("P");
+			// desc.innerHTML = txtDescription;
+
+			// div.appendChild(title);
+			// div.appendChild(desc);
+
+			//add card to swimlane
+			let swimlane = document.querySelector("#swimlane" + slid);
+			swimlane.appendChild(div);
+		}
+		
+		
+		//edit the name of a card
+		//delete a card from a swimlane
+		//ability to move a card up or down in the swimlane
+		//move swimlane to left or right
+		
+		//edit the swimlane name
+		//delete a swimlane
+		//	delete all cards in a swimlane?
+		//	prompt "are you sure you want to delete the swimlane"
+		//	prompt "move cards to a new swimlane"
+		//move a card to next or previous swimlane
+
+	</script>
+</head>
+<body>
+	<h1>KANBAN TASK BOARD</h1>
+	<input type="button" value="Add a list!" onclick="addSwimlane()" />
+	<div class="container">
+		
+	</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: turquoise;
+}
+#canvas {
+    width: 100%;
+    height: 100%;
+}
+.container {
+	border: solid 2px #6abc72;
+	background-color: turquoise;
+	width: 99%;
+	height: 96vh;
+	display: flex;
+}
+input {
+	background-color: #84639a;
+	width:100px;
+	height: 30px;
+	border-radius: 15px;
+	border: solid 2px #6abc72;
+	margin: 10px;
+}
+.swimlane {
+	width: 200px;
+	height: 100%;
+	border: solid 2px #6abc72;
+	background-color: #84639a;
+	flex-basis: 200px;
+}
+#addCardBtn {
+	background-color: #84639a;
+	width:100px;
+	height: 30px;
+	border-radius: 15px;
+	border: solid 2px #6abc72;
+	margin: 10px;
+}
+.nameInput {
+	background-color: #84639a;
+	width:170px;
+	height: 30px;
+	border-radius: 15px;
+	border: solid 2px #6abc72;
+	margin: 10px;
+}
+.card {
+	width: 95%;
+	height: 200px;
+	border: solid 2px #000000;
+	background-color: #6abc72;
+}
