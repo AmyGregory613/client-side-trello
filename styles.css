@@ -53,3 +53,10 @@ input {
 	border: solid 2px #000000;
 	background-color: #6abc72;
 }
+.card-header{
+	
+}
+.card-buttons {
+	display:flex;
+	justify-content: space-between;
+}
