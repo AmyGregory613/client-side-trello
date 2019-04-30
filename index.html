@@ -6,8 +6,8 @@
 	<title>Client Side Trello</title>
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<script>
-		let swimlaneID = 0; //initialize the swimlane counter
-		let cardID = 0;
+		let swimlaneID = 1; //initialize the swimlane counter
+		let cardID = 1;
 		let swimlane = document.querySelector("#swimlane" + swimlaneID);
 
 		//add a swimlane
@@ -25,6 +25,7 @@
 			//add a name to the swimlane
 			var listName = document.createElement("INPUT")
 			listName.setAttribute("type", "text");
+			// listName.setAttribute("color", "black");
 			listName.setAttribute("value", "");
 			listName.setAttribute("id", "lName");
   			listName.setAttribute("placeholder", "Enter List Name...");
@@ -74,8 +75,6 @@
 				var swimlane = document.getElementById(`swimlane${swimlaneID}`)
 
 				var swimlane_name = item.value;
-
-				
 
 				var slName = document.createElement("div")
 
@@ -245,26 +244,43 @@
 		}
 //move swimlane to left or right
 		function moveSwimlane() {
-			swimlaneID++;
-			let slid = this.dataset.swimlaneId;
-			let swimlane = document.querySelector("#swimlane" + slid);
-			let container = document.querySelector(".container");
-			let previous = document.querySelector("#swimlane" + slid).previousSibling;
-			let next = document.querySelector("#swimlane" + slid).nextSibling;
+			//swimlaneID++;
+			let container = this.parentElement.parentElement;
 
-			let pidx = Array.prototype.indexOf.call(container.children, previous);
-			let nidx = Array.prototype.indexOf.call(container.children, next);
-			let cidx = Array.prototype.indexOf.call(container.children, swimlane);
+			let swimlane = this.parentElement;
 
-			console.log(this.dataset.direction);
-			console.log(swimlane);
+			let swimlaneId = this.dataset.swimlaneId;
 
-			if(this.dataset.direction == "left") {
-				// list.insertBefore(newItem, list.childNodes[0]);
-				container.insertBefore(swimlane, container.childNodes[pidx]);
+			let moveDirection = this.dataset.direction;
+
+			let swimlanes = container.children;
+
+			let swimlanesLength = swimlanes.length;
+
+			let swimlaneIndex = 0;
+
+			for(let i = 0; i < swimlanesLength; i++) {
+				//console.dir(swimlanes[i].id)
+				//console.log(swimlaneId)
+				if(swimlanes[i].id === `swimlane${swimlaneId}`) {
+					swimlaneIndex = i;
+				}
 			}
-			else if (this.dataset.direction == "right") {
-				container.insertBefore(swimlane, container.childNodes[++nidx]);
+
+			if (moveDirection.toUpperCase() === "RIGHT") {
+				let swimlaneAfter = container.children[swimlaneIndex + 2];
+
+				container.insertBefore(swimlane, swimlaneAfter);
+			} else if (moveDirection.toUpperCase() === "LEFT") {
+				let swimlaneBefore = container.children[swimlaneIndex - 1];
+
+				if (!swimlaneBefore) {
+					console.log("This is as far as you go: left");
+				} else {
+					container.insertBefore(swimlane, swimlaneBefore);
+				}
+			} else {
+				console.log("Not a direction")
 			}
 		}
 		//delete a swimlane
