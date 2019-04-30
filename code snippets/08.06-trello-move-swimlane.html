@@ -64,6 +64,15 @@
 			btnMoveSwimlaneLeft.addEventListener("click", moveSwimlane);
 			swimlane.appendChild(btnMoveSwimlaneLeft);
 
+			//create a "move swimlane right" button
+			var btnMoveSwimlaneRight = document.createElement("INPUT");
+			btnMoveSwimlaneRight.setAttribute("type", "button");
+			btnMoveSwimlaneRight.setAttribute("value", "▶️");
+			btnMoveSwimlaneRight.setAttribute("data-swimlane-id", swimlaneID);
+			btnMoveSwimlaneRight.setAttribute("data-direction", "right");
+			btnMoveSwimlaneRight.addEventListener("click", moveSwimlane);
+			swimlane.appendChild(btnMoveSwimlaneRight);
+
 			//create a "add card" button
 			var btnAddCard = document.createElement("INPUT");
 			btnAddCard.setAttribute("type", "button");
@@ -82,19 +91,12 @@
 			btnDelSwimlane.addEventListener("click", deleteSwimlane);
 			swimlane.appendChild(btnDelSwimlane);
 
-			//create a "move swimlane right" button
-			var btnMoveSwimlaneRight = document.createElement("INPUT");
-			btnMoveSwimlaneRight.setAttribute("type", "button");
-			btnMoveSwimlaneRight.setAttribute("value", "▶️");
-			btnMoveSwimlaneRight.setAttribute("data-swimlane-id", swimlaneID);
-			btnMoveSwimlaneRight.setAttribute("data-direction", "right");
-			btnMoveSwimlaneRight.addEventListener("click", moveSwimlane);
-			swimlane.appendChild(btnMoveSwimlaneRight);
+			
 		}
 
 		//delete a swimlane
 		//	delete all cards in a swimlane?
-		//	prompt "are you sure you want to delete the swimlane"
+		//	prompt "are you sure you want to delete the swimlane?"
 		//	prompt "move cards to a new swimlane"
 		function deleteSwimlane() {
 			let slid = this.dataset.swimlaneId;
@@ -184,6 +186,7 @@
 		
 		//move swimlane to left or right
 		function moveSwimlane() {
+			swimlaneID++;
 			let slid = this.dataset.swimlaneId;
 			let swimlane = document.querySelector("#swimlane" + slid);
 			let container = document.querySelector(".container");

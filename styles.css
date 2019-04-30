@@ -31,6 +31,14 @@ input {
 	background-color: #84639a;
 	flex-basis: 200px;
 }
+.moveButton {
+	background-color: #84639a;
+	width:50px;
+	height: 30px;
+	border-radius: 15px;
+	border: solid 2px #6abc72;
+	margin: 10px;
+}
 #addCardBtn {
 	background-color: #84639a;
 	width:100px;
@@ -54,7 +62,7 @@ input {
 	background-color: #6abc72;
 }
 .card-header{
-	
+
 }
 .card-buttons {
 	display:flex;

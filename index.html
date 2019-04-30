@@ -8,6 +8,7 @@
 	<script>
 		let swimlaneID = 0; //initialize the swimlane counter
 		let cardID = 0;
+		let swimlane = document.querySelector("#swimlane" + swimlaneID);
 
 		//add a swimlane
 		//add another swimlane
@@ -32,6 +33,27 @@
   			div.appendChild(listName);
 
 			//edit the name of a swimlane
+
+			//create a "move swimlane left" button
+
+			var btnMoveSwimlaneLeft = document.createElement("INPUT");
+			btnMoveSwimlaneLeft.setAttribute("type", "button");
+			btnMoveSwimlaneLeft.setAttribute("value", "◀️");
+			btnMoveSwimlaneLeft.setAttribute("class", "moveButton");
+			btnMoveSwimlaneLeft.setAttribute("data-swimlane-id", swimlaneID);
+			btnMoveSwimlaneLeft.setAttribute("data-direction", "left");
+			btnMoveSwimlaneLeft.addEventListener("click", moveSwimlane);
+			div.appendChild(btnMoveSwimlaneLeft);
+
+			//create a "move swimlane right" button
+			var btnMoveSwimlaneRight = document.createElement("INPUT");
+			btnMoveSwimlaneRight.setAttribute("type", "button");
+			btnMoveSwimlaneRight.setAttribute("value", "▶️");
+			btnMoveSwimlaneRight.setAttribute("class", "moveButton");
+			btnMoveSwimlaneRight.setAttribute("data-swimlane-id", swimlaneID);
+			btnMoveSwimlaneRight.setAttribute("data-direction", "right");
+			btnMoveSwimlaneRight.addEventListener("click", moveSwimlane);
+			div.appendChild(btnMoveSwimlaneRight);
 
 			//create an "add card" button
 			var btn = document.createElement("INPUT");
@@ -221,10 +243,43 @@
 				console.log("Hello Card!")	
 			}
 		}
+//move swimlane to left or right
+		function moveSwimlane() {
+			swimlaneID++;
+			let slid = this.dataset.swimlaneId;
+			let swimlane = document.querySelector("#swimlane" + slid);
+			let container = document.querySelector(".container");
+			let previous = document.querySelector("#swimlane" + slid).previousSibling;
+			let next = document.querySelector("#swimlane" + slid).nextSibling;
 
+			let pidx = Array.prototype.indexOf.call(container.children, previous);
+			let nidx = Array.prototype.indexOf.call(container.children, next);
+			let cidx = Array.prototype.indexOf.call(container.children, swimlane);
+
+			console.log(this.dataset.direction);
+			console.log(swimlane);
+
+			if(this.dataset.direction == "left") {
+				// list.insertBefore(newItem, list.childNodes[0]);
+				container.insertBefore(swimlane, container.childNodes[pidx]);
+			}
+			else if (this.dataset.direction == "right") {
+				container.insertBefore(swimlane, container.childNodes[++nidx]);
+			}
+		}
+		//delete a swimlane
+		//	prompt "are you sure you want to delete the swimlane?"
+		function deleteSwimlane() {
+			let slid = this.dataset.swimlaneId;
+
+			let container = document.querySelector(".container");
+			let swimlane = document.getElementById("swimlane" + slid);
+
+			container.removeChild(swimlane);
+		}
 		
 		//ability to move a card up or down in the swimlane
-		//move swimlane to left or right
+		
 		
 		//edit the swimlane name
 		//delete a swimlane
