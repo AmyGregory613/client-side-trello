@@ -35,6 +35,10 @@ input {
 	font-size: 30px;
 	color: black;
 }
+::placeholder {
+  color: #6abc72;
+  opacity: 1;
+}
 .moveButton {
 	background-color: #84639a;
 	width:50px;
@@ -64,9 +68,6 @@ input {
 	height: 200px;
 	border: solid 2px #000000;
 	background-color: #6abc72;
-}
-.card-header{
-
 }
 .card-buttons {
 	display:flex;

@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Client Side Trello</title>
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<script>
 		let swimlaneId = 1; //initialize the swimlane counter
 		let cardId = 1;
@@ -23,20 +24,16 @@
 			div.setAttribute("class", "swimlane");
 
 			//add a name to the swimlane
-			var listName = document.createElement("INPUT")
+			var listName = document.createElement("INPUT");
 			listName.setAttribute("type", "text");
-			// listName.setAttribute("color", "black");
 			listName.setAttribute("value", "");
 			listName.setAttribute("id", "lName");
   			listName.setAttribute("placeholder", "Enter List Name...");
   			listName.setAttribute("class", "nameInput");
-  			listName.setAttribute('onkeypress', 'createSlName(event, this,' + swimlaneId + ')')
+  			listName.setAttribute('onkeypress', 'createSlName(event, this,' + swimlaneId + ')');
   			div.appendChild(listName);
 
-			//edit the name of a swimlane
-
-			//create a "move swimlane left" button
-
+			// create a "move swimlane left" button
 			var btnMoveSwimlaneLeft = document.createElement("INPUT");
 			btnMoveSwimlaneLeft.setAttribute("type", "button");
 			btnMoveSwimlaneLeft.setAttribute("value", "◀️");
@@ -59,7 +56,7 @@
 			//create an "add card" button
 			var btn = document.createElement("INPUT");
 			btn.setAttribute("type", "button");
-			btn.setAttribute("value", "Add Card");
+			btn.setAttribute("value", "Add Item");
 			btn.setAttribute("id", "addCardBtn" + swimlaneId);
 			btn.setAttribute("data-swimlane-id", swimlaneId);
 			div.appendChild(btn);
@@ -87,7 +84,8 @@
 
 				var slName = document.createElement("div")
 
-				slName.innerHTML = `<div class="sl-header">${swimlane_name}</div>`;
+				slName.innerHTML = `<div class="sl-header"><p>${swimlane_name}<span id="edit" onclick="editSlName(event)">
+				<i class="fas fa-pencil-alt"></i></span</p></div>`;
 
 				let nameInput = swimlane.childNodes[0];
 
@@ -98,6 +96,19 @@
 			} else {
 				console.log("Hello Card!")	
 			}
+		}
+
+		function editSlName(e) {
+			const buttonClicked = e.target;
+
+			buttonClicked.style.display = 'none';
+			console.dir(buttonClicked)
+			// find the text an icon and hide them
+				// you can hid an element with style display = none
+			// create the input and button and add the to the page
+			// button will have an onlcick event to caputer the input value
+			// the function for the onclick will use the input value to change the hidden text to the new value
+			// the input and button need to then be removed and the hidden text and icon need to be unhidden
 		}
 
 		//add a card to swimlane
@@ -118,6 +129,7 @@
 			var btnMoveLeft = document.createElement("INPUT");
 			btnMoveLeft.setAttribute("id", "btnMoveLeft" + cardId);
 			btnMoveLeft.setAttribute("type", "button");
+			btnMoveLeft.setAttribute("class", "moveButton");
 			btnMoveLeft.setAttribute("value", "◀️");
 			btnMoveLeft.setAttribute("data-move-direction","left");
 			btnMoveLeft.setAttribute("data-card-id", cardId);
@@ -127,6 +139,7 @@
 			var btnMoveRight = document.createElement("INPUT");
 			btnMoveRight.setAttribute("id", "btnMoveRight" + cardId);
 			btnMoveRight.setAttribute("type", "button");
+			btnMoveRight.setAttribute("class", "moveButton");
 			btnMoveRight.setAttribute("value", "▶️");
 			btnMoveRight.setAttribute("data-move-direction","right");
 			btnMoveRight.setAttribute("data-card-id", cardId);
@@ -137,14 +150,14 @@
 			var btnDelete = document.createElement("INPUT");
 			btnDelete.setAttribute("id", "btnDel" + cardId);
 			btnDelete.setAttribute("type", "button");
-			btnDelete.setAttribute("value", "X");
+			btnDelete.setAttribute("value", "Delete Item");
 			btnDelete.setAttribute("data-card-id", cardId);
 			btnDelete.setAttribute("data-swimlane-id", slid);
 			btnDelete.addEventListener("click", deleteCard);
-			div.appendChild(btnDelete);
+			cardButtons.appendChild(btnDelete);
 
 			//make buttons appear on card
-			// card.appendChild(cardButtons);
+			div.appendChild(cardButtons);
 
 			//	add a name to the card
 			var cardName = document.createElement("INPUT")
@@ -239,7 +252,6 @@
 
 
 				input.style.display = "none";
-
 
 				let newDiv = document.createElement('div');
 
