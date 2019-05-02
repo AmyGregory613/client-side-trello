@@ -63,6 +63,10 @@ input {
 	border: solid 2px #6abc72;
 	margin: 10px;
 }
+#edit{
+	font-size: 20px;
+	margin-left: 80px;
+}
 .card {
 	width: 95%;
 	height: 200px;

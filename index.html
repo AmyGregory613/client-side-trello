@@ -84,7 +84,7 @@
 
 				var slName = document.createElement("div")
 
-				slName.innerHTML = `<div class="sl-header"><p>${swimlane_name}<span id="edit" onclick="editSlName(event)">
+				slName.innerHTML = `<div class="sl-header"><p>${swimlane_name}<span id="edit" onclick="showEditSlForm(event)">
 				<i class="fas fa-pencil-alt"></i></span</p></div>`;
 
 				let nameInput = swimlane.childNodes[0];
@@ -98,17 +98,34 @@
 			}
 		}
 
-		function editSlName(e) {
+		function showEditSlForm(e) {
+			// creates the edit form and hides the swimlane name
+
 			const buttonClicked = e.target;
 
-			buttonClicked.style.display = 'none';
-			console.dir(buttonClicked)
-			// find the text an icon and hide them
-				// you can hid an element with style display = none
-			// create the input and button and add the to the page
-			// button will have an onlcick event to caputer the input value
-			// the function for the onclick will use the input value to change the hidden text to the new value
-			// the input and button need to then be removed and the hidden text and icon need to be unhidden
+			const swimlaneNameContainer = buttonClicked.parentElement.parentElement.parentElement;
+
+			const swimlaneName = swimlaneNameContainer.firstChild;
+
+			// navigating the dom above
+
+			swimlaneName.style.display = 'none';
+
+			// create input
+			// create button
+				// add event listener to the button to call another function
+					// this is a new function to handle edits
+			// add both the input and button to the swimlaneNameContainer
+
+		}
+
+		function editSlName() {
+			// edit's the swimlane names and removes the edit form
+
+			// will find the swimlanename element
+			// you will change that elements text value to the edit input value
+			// you will then remove the edit input and button
+
 		}
 
 		//add a card to swimlane
