@@ -7,13 +7,14 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 	<script>
-		let swimlaneId = 1; //initialize the swimlane counter
-		let cardId = 1;
+		let swimlaneId = 0; //initialize the swimlane counter
+		let cardId = 0;
 		let swimlane = document.querySelector("#swimlane" + swimlaneId);
 
 		//add a swimlane
 		//add another swimlane
 		function addSwimlane() {
+			swimlaneId++;
 			//create a div
 			var div = document.createElement("DIV");
 
@@ -22,12 +23,14 @@
 
 			//set the class
 			div.setAttribute("class", "swimlane");
+			div.setAttribute("data-swimlane-id", swimlaneId);
 
 			//add a name to the swimlane
 			var listName = document.createElement("INPUT");
 			listName.setAttribute("type", "text");
 			listName.setAttribute("value", "");
 			listName.setAttribute("id", "lName");
+			listName.setAttribute("data-swimlane-id", swimlaneId);
   			listName.setAttribute("placeholder", "Enter List Name...");
   			listName.setAttribute("class", "nameInput");
   			listName.setAttribute('onkeypress', 'createSlName(event, this,' + swimlaneId + ')');
@@ -73,7 +76,7 @@
 
 			//add to the container
 			document.querySelector(".container").appendChild(div);
-			swimlaneId++;
+			
 		}
 		//
 		function createSlName(event, item, swimlaneId){
@@ -104,41 +107,56 @@
 			const buttonClicked = e.target;
 
 			const swimlaneNameContainer = buttonClicked.parentElement.parentElement.parentElement;
-
+			console.log (swimlaneNameContainer);
 			const swimlaneName = swimlaneNameContainer.firstChild;
 
-			// navigating the dom above
-
-			swimlaneName.style.display = 'none';
-
 			// create input
-			// create button
-				// add event listener to the button to call another function
-					// this is a new function to handle edits
-			// add both the input and button to the swimlaneNameContainer
 
+			var editedSlName = document.createElement("INPUT");
+			editedSlName.setAttribute("type", "text");
+			editedSlName.setAttribute("value", "");
+			editedSlName.setAttribute("id", "editedSlName");
+  			editedSlName.setAttribute("placeholder", "Enter New List Name...");
+  			editedSlName.setAttribute("class", "nameInput");
+  			editedSlName.setAttribute('onkeypress', 'editSlName(event, this,' + swimlaneId + ')');
+  			swimlaneNameContainer.innerHTML = `<input type='text' id='editedSlName' placeholder='Enter new list name…' class='nameInput' onKeyPress='editSlName(event, this, ${swimlaneId})'/>`;
 		}
 
-		function editSlName() {
-			// edit's the swimlane names and removes the edit form
+		function editSlName(event, item, swimlaneId) {
+			if(event.keyCode == 13){
+				var swimlane = document.getElementById(`swimlane${swimlaneId-1}`)
+				console.log(swimlaneId-1);
 
-			// will find the swimlanename element
-			// you will change that elements text value to the edit input value
-			// you will then remove the edit input and button
+				var swimlane_name = item.value;
 
+				var slName = document.createElement("div")
+
+				slName.innerHTML = `<div class="sl-header"><p>${swimlane_name}<span id="edit" onclick="showEditSlForm(event)">
+				<i class="fas fa-pencil-alt"></i></span</p></div>`;
+
+				let nameInput = swimlane.childNodes[0];
+
+				swimlane.prepend(slName);
+
+				nameInput.style.display = "none";
+
+			} else {
+				console.log("Hello Card!")	
+			}
 		}
 
 		//add a card to swimlane
 		function addCard() {
+			cardId++
 			var div = document.createElement("DIV");
 			div.setAttribute("id", "card" + cardId); 
 			div.setAttribute("class", "card");
 			// cardID++;
-
-			//get the swimlane id from the button that was clicked
 			let slid = this.dataset.swimlaneId;
-
-
+			console.log(slid);
+			div.setAttribute("data-swimlane-id", slid);
+			//get the swimlane id from the button that was clicked
+			
 			var cardButtons = document.createElement("DIV");
 			cardButtons.setAttribute("class", "card-buttons");
 
@@ -217,10 +235,12 @@
 		}
 		//move a card to next or previous swimlane
 		function moveCard() {
-			let slid = this.parentNode.parentNode.dataset.swimlaneId;
+			let slid = this.parentNode.parentNode.parentNode.dataset.swimlaneId;
+			console.log(slid);
 			let cid = this.dataset.cardId;
 
 			let card = document.querySelector("#card" + cid);
+			console.log(cid, card);
 
 			let leftSlid;
 			let rightSlid;
@@ -230,6 +250,7 @@
 			//try to get left swimlane data, may not exist
 			try {
 				left = document.querySelector("#swimlane" + slid).previousSibling;
+				console.log(left);
 				leftSlid = left.dataset.swimlaneId;
 			}
 			catch (e) {
@@ -239,12 +260,12 @@
 			//try to get right swimlane data, may not exist
 			try {
 				right = document.querySelector("#swimlane" + slid).nextSibling;
+				console.log(right);
 				rightSlid = right.dataset.swimlaneId;
 			}
 			catch (e) {
 				console.error(e);
 			}
-
 			console.log(left);
 			console.log(right);
 
@@ -252,10 +273,12 @@
 
 			if(left != null && direction == "left") {
 				left.appendChild(card);
+				console.log(direction, slid, card);
 				card.dataset.swimlaneId = leftSlid;
 			}
 			else if(right != null && direction == "right") {
 				right.appendChild(card);
+				console.log(direction, slid, card);
 				card.dataset.swimlaneId = rightSlid;
 			}
 		}
@@ -282,7 +305,7 @@
 		}
 		//move swimlane to left or right
 		function moveSwimlane() {
-			//swimlaneID++;
+			
 			let container = this.parentElement.parentElement;
 
 			let swimlane = this.parentElement;
@@ -338,7 +361,7 @@
 		//	delete all cards in a swimlane?
 		
 		//	prompt "move cards to a new swimlane"
-		//move a card to next or previous swimlane
+		
 
 	</script>
 </head>
