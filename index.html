@@ -68,7 +68,8 @@
 			//create a "delete swimlane" button
 			var btnDelSwimlane = document.createElement("INPUT");
 			btnDelSwimlane.setAttribute("type", "button");
-			btnDelSwimlane.setAttribute("value", "Delete List");
+			btnDelSwimlane.setAttribute("class", "moveButton");
+			btnDelSwimlane.setAttribute("value", "X");
 			btnDelSwimlane.setAttribute("id", "btnDel" + swimlaneId);
 			btnDelSwimlane.setAttribute("data-swimlane-id", swimlaneId);
 			btnDelSwimlane.addEventListener("click", deleteSwimlane);
@@ -160,7 +161,7 @@
 			var cardButtons = document.createElement("DIV");
 			cardButtons.setAttribute("class", "card-buttons");
 
-			//create "Move Left" and "Move right" buttons
+			//create "Move Left" button
 			var btnMoveLeft = document.createElement("INPUT");
 			btnMoveLeft.setAttribute("id", "btnMoveLeft" + cardId);
 			btnMoveLeft.setAttribute("type", "button");
@@ -171,6 +172,7 @@
 			btnMoveLeft.addEventListener("click", moveCard);
 			cardButtons.appendChild(btnMoveLeft);
 
+			// create "Move Right" button
 			var btnMoveRight = document.createElement("INPUT");
 			btnMoveRight.setAttribute("id", "btnMoveRight" + cardId);
 			btnMoveRight.setAttribute("type", "button");
@@ -181,11 +183,34 @@
 			btnMoveRight.addEventListener("click", moveCard);
 			cardButtons.appendChild(btnMoveRight);
 
+			// create "Move Down" button
+			var btnMoveDown = document.createElement("INPUT");
+			btnMoveDown.setAttribute("id", "btnMoveDown" + cardId);
+			btnMoveDown.setAttribute("type", "button");
+			btnMoveDown.setAttribute("class", "moveButton");
+			btnMoveDown.setAttribute("value", "🔽"); //replace with icon
+			btnMoveDown.setAttribute("data-move-direction","down");
+			btnMoveDown.setAttribute("data-card-id", cardId);
+			btnMoveDown.addEventListener("click", moveCard);
+			cardButtons.appendChild(btnMoveDown);
+
+			// create "Move Up" button
+			var btnMoveUp = document.createElement("INPUT");
+			btnMoveUp.setAttribute("id", "btnMoveUp" + cardId);
+			btnMoveUp.setAttribute("type", "button");
+			btnMoveUp.setAttribute("class", "moveButton");
+			btnMoveUp.setAttribute("value", "🔼"); //replace with icon
+			btnMoveUp.setAttribute("data-move-direction","up");
+			btnMoveUp.setAttribute("data-card-id", cardId);
+			btnMoveUp.addEventListener("click", moveCard);
+			cardButtons.appendChild(btnMoveUp);
+
 			//create "Delete Button"
 			var btnDelete = document.createElement("INPUT");
 			btnDelete.setAttribute("id", "btnDel" + cardId);
 			btnDelete.setAttribute("type", "button");
-			btnDelete.setAttribute("value", "Delete Item");
+			btnDelete.setAttribute("class", "moveButton");
+			btnDelete.setAttribute("value", "X");
 			btnDelete.setAttribute("data-card-id", cardId);
 			btnDelete.setAttribute("data-swimlane-id", slid);
 			btnDelete.addEventListener("click", deleteCard);
@@ -197,12 +222,11 @@
 			//	add a name to the card
 			var cardName = document.createElement("INPUT")
 			cardName.setAttribute("type", "text");
-  			cardName.setAttribute("placeholder", "Enter Card Name...");
+  			cardName.setAttribute("placeholder", "Enter Item...");
   			cardName.setAttribute("class", "nameInput");
   			cardName.setAttribute("id", "nameInput");
   			cardName.setAttribute('onkeypress', 'createCardAttribute(event, this,' + slid + ')');
   			div.appendChild(cardName);
-			
 
 			//edit the name of a card
 
@@ -235,54 +259,53 @@
 		}
 		//move a card to next or previous swimlane
 		function moveCard() {
-			let slid = this.parentNode.parentNode.parentNode.dataset.swimlaneId;
-			console.log(slid);
-			let cid = this.dataset.cardId;
-
-			let card = document.querySelector("#card" + cid);
-			console.log(cid, card);
+			let swimlane = this.parentElement.parentElement.parentElement;
+			let card = this.parentElement.parentElement;
 
 			let leftSlid;
 			let rightSlid;
+			let downCard;
+			let upCard;
 			let left;
 			let right;
+			// let up;
+			// let down;
 
-			//try to get left swimlane data, may not exist
-			try {
-				left = document.querySelector("#swimlane" + slid).previousSibling;
-				console.log(left);
-				leftSlid = left.dataset.swimlaneId;
-			}
-			catch (e) {
-				console.error(e);
-			}
+			//try to get card above let up = card above
 
-			//try to get right swimlane data, may not exist
-			try {
-				right = document.querySelector("#swimlane" + slid).nextSibling;
-				console.log(right);
-				rightSlid = right.dataset.swimlaneId;
-			}
-			catch (e) {
-				console.error(e);
-			}
-			console.log(left);
-			console.log(right);
+			//try to get card down let down = card below
 
 			let direction = this.dataset.moveDirection;
 
-			if(left != null && direction == "left") {
-				left.appendChild(card);
-				console.log(direction, slid, card);
-				card.dataset.swimlaneId = leftSlid;
-			}
-			else if(right != null && direction == "right") {
-				right.appendChild(card);
-				console.log(direction, slid, card);
-				card.dataset.swimlaneId = rightSlid;
+			if (direction == "left") {
+				left = swimlane.previousSibling;
+				console.log(left);
+				leftSlid = left.dataset.swimlaneId;
+
+				if (!!left) {
+					left.appendChild(card);
+					// console.log(direction, slid, card);
+					card.dataset.swimlaneId = leftSlid;
+				}
+			} else if (direction == "right") {
+				right = swimlane.nextSibling;
+				console.log(right);
+				rightSlid = right.dataset.swimlaneId;
+
+				if (!!right) {
+					right.appendChild(card);
+					// console.log(direction, slid, card);
+					card.dataset.swimlaneId = rightSlid;
+				}
+			} else if (direction == "down") {
+				downCard = card.nextSibling.nextSibling;
+				swimlane.insertBefore(card, downCard)
+			} else if (direction == "up") {
+				// console.log("hello world")
+				upCard = card.previousSibling;
+				swimlane.insertBefore(card, upCard);
 			}
 		}
-
 
 		function createCardAttribute(event, item, slid){
 			if(event.keyCode == 13){
@@ -355,7 +378,6 @@
 			container.removeChild(swimlane);
 		}
 		
-		//ability to move a card up or down in the swimlane
 		
 		
 		//	delete all cards in a swimlane?
